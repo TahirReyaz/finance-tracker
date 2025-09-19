@@ -1,8 +1,10 @@
 #!/bin/sh
 
 # Load environment variables from .env file
-[ ! -f .env ] || export $(grep -v '^#' .env | xargs)
+export $(grep -v '^#' .env | xargs)
 
-export DATASOURCE_USER=${DATASOURCE_USER}
-export DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD}
-export DATASOURCE_URL=${DATASOURCE_URL}
+
+echo "Environment variables loaded:"
+echo DATASOURCE_USER=$DATASOURCE_USER
+echo DATASOURCE_PASSWORD=$DATASOURCE_PASSWORD
+echo DATASOURCE_URL=$DATASOURCE_URL
