@@ -15,19 +15,9 @@ import com.tahir.finance_manager.repositories.UserRepository;
 
 @RequestMapping(path = "/users")
 public class UserController {
+
   @Autowired
   private UserRepository userRepo;
-
-  @PostMapping(path = "/signin")
-  public @ResponseBody User addNewUser(@RequestParam String username, @RequestParam String email,
-      @RequestParam String password) {
-    User newUser = new User();
-    newUser.setUsername(username);
-    newUser.setEmail(email);
-    newUser.setPassword(password);
-    userRepo.save(newUser);
-    return newUser;
-  }
 
   @GetMapping(path = "/all")
   public @ResponseBody Iterable<User> getAllUsers() {
