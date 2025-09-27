@@ -12,12 +12,13 @@ import com.tahir.finance_manager.dto.SignupRequestDto;
 import com.tahir.finance_manager.dto.SignupResponseDto;
 import com.tahir.finance_manager.security.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthConroller {
+public class AuthController {
   private final AuthService authService;
 
   @PostMapping(path = "/login")
@@ -26,7 +27,7 @@ public class AuthConroller {
   }
 
   @PostMapping(path = "/signup")
-  public ResponseEntity<SignupResponseDto> signup(@RequestBody SignupRequestDto signupRequestDto) {
+  public ResponseEntity<SignupResponseDto> signup(@Valid @RequestBody SignupRequestDto signupRequestDto) {
     return ResponseEntity.ok(authService.signup(signupRequestDto));
 
   }

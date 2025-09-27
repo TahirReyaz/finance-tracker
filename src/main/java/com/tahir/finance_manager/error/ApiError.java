@@ -1,6 +1,7 @@
 package com.tahir.finance_manager.error;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 
@@ -11,6 +12,7 @@ public class ApiError {
   private LocalDateTime timeStamp;
   private String error;
   private HttpStatus statusCode;
+  private Map<String, String> fieldErrors;
 
   public ApiError() {
     this.timeStamp = LocalDateTime.now();
@@ -20,5 +22,10 @@ public class ApiError {
     this();
     this.error = error;
     this.statusCode = statusCode;
+  }
+
+  public ApiError(String error, HttpStatus statusCode, Map<String, String> fieldErrors) {
+    this(error, statusCode);
+    this.fieldErrors = fieldErrors;
   }
 }

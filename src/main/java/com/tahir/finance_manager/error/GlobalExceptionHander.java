@@ -1,12 +1,15 @@
 package com.tahir.finance_manager.error;
 
 import java.nio.file.AccessDeniedException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.naming.AuthenticationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -42,6 +45,17 @@ public class GlobalExceptionHander {
   public ResponseEntity<ApiError> handleUsernameNotFoundException(Exception ex) {
     ApiError apiError = new ApiError("An unexpected error occurred: " + ex.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(apiError, apiError.getStatusCode());
+  }
+
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ApiError> handleValidationException(MethodArgumentNotValidException ex) {
+    Map<String, String> errors = new HashMap<>();
+    ex.getBindingResult().getFieldErrors()
+        .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+
+    ApiError apiError = new ApiError("An unexpected error occurred: " + ex.getMessage(),
+        HttpStatus.BAD_REQUEST, errors);
     return new ResponseEntity<>(apiError, apiError.getStatusCode());
   }
 }
