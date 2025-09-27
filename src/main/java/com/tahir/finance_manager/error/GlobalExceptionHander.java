@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import io.jsonwebtoken.JwtException;
 
@@ -57,5 +58,11 @@ public class GlobalExceptionHander {
     ApiError apiError = new ApiError("An unexpected error occurred: " + ex.getMessage(),
         HttpStatus.BAD_REQUEST, errors);
     return new ResponseEntity<>(apiError, apiError.getStatusCode());
+  }
+
+  @ExceptionHandler(ResponseStatusException.class)
+  public ResponseEntity<ApiError> handleResponseStatusException(ResponseStatusException ex) {
+    ApiError apiError = new ApiError(ex.getReason(), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
   }
 }

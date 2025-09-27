@@ -12,7 +12,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -30,18 +29,21 @@ public class User implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String id;
-  @JoinColumn(unique = true)
+  @Column(unique = true, nullable = false)
   private String username;
-  @JoinColumn(unique = true)
-  private String email;
+  @Column(nullable = false)
   private String password;
+  @Column(unique = true, nullable = false)
+  private String email;
+
   @Column(name = "verified", insertable = false)
-  private Boolean verfied;
+  private Boolean verified;
   @Column(name = "auth_level", insertable = false)
   private Integer auth_level;
-  @Column(name = "created_at", insertable = false, updatable = false)
+
+  @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()", updatable = false, insertable = false)
   private Timestamp created_at;
-  @Column(name = "updated_at", insertable = false)
+  @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()", insertable = false)
   private Timestamp updated_at;
 
   @PreUpdate
