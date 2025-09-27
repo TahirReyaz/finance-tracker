@@ -2,6 +2,7 @@ package com.tahir.finance_manager.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,6 +31,10 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(
             auth -> auth
                 .requestMatchers("/public/**", "/auth/**", "/").permitAll()
+                .requestMatchers(HttpMethod.GET, "/expense-type/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/expense-type").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/expense-type/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/expense-type/**").authenticated()
                 // .requestMatchers("/admin/**").hasRole("ADMIN"))
                 .anyRequest().authenticated())
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

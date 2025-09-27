@@ -1,0 +1,13 @@
+package com.tahir.finance_manager.repositories;
+
+import java.util.Optional;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.tahir.finance_manager.entities.ExpenseType;
+
+public interface ExpenseTypeRepository extends CrudRepository<ExpenseType, String> {
+  Optional<ExpenseType> findExpenseTypeById(String id);
+
+  Optional<ExpenseType> findExpenseTypeByName(String id);
+}

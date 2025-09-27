@@ -8,6 +8,7 @@ import javax.naming.AuthenticationException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -63,6 +64,12 @@ public class GlobalExceptionHander {
   @ExceptionHandler(ResponseStatusException.class)
   public ResponseEntity<ApiError> handleResponseStatusException(ResponseStatusException ex) {
     ApiError apiError = new ApiError(ex.getReason(), HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(HttpMessageNotReadableException.class)
+  public ResponseEntity<ApiError> handleMissingRequestBody(HttpMessageNotReadableException ex) {
+    ApiError apiError = new ApiError("Request body is required", HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
   }
 }
