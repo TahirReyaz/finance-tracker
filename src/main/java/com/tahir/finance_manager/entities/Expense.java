@@ -1,5 +1,6 @@
 package com.tahir.finance_manager.entities;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
@@ -25,20 +26,25 @@ import lombok.NoArgsConstructor;
 public class Expense {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private String id;
+  private Long id;
+
   @Column(nullable = false)
   private Timestamp time;
+
   @ManyToOne
-  @JoinColumn(name = "user", nullable = false)
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
   @ManyToOne
-  @JoinColumn(name = "expense_type", nullable = false)
+  @JoinColumn(name = "expense_type_id", nullable = false)
   private ExpenseType expense_type;
+
   @ManyToOne
-  @JoinColumn(name = "expense_group")
+  @JoinColumn(name = "expense_group_id")
   private ExpenseGroup expense_group;
-  @Column(nullable = false)
-  private Double amount;
+
+  @Column(nullable = false, precision = 12, scale = 2)
+  private BigDecimal amount;
   @Column(nullable = false)
   private String item;
 

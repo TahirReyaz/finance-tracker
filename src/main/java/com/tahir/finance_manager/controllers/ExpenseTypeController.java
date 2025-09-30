@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tahir.finance_manager.dto.expenseType.CreateRequestDto;
-import com.tahir.finance_manager.dto.expenseType.CreateResponseDto;
+import com.tahir.finance_manager.dto.expenseType.CreateExpenseTypeRequestDto;
+import com.tahir.finance_manager.dto.expenseType.CreateExpenseTypeResponseDto;
 import com.tahir.finance_manager.entities.ExpenseType;
 import com.tahir.finance_manager.repositories.ExpenseTypeRepository;
 import com.tahir.finance_manager.services.ExpenseTypeService;
@@ -31,7 +31,8 @@ public class ExpenseTypeController {
   }
 
   @PostMapping
-  public ResponseEntity<CreateResponseDto> createType(@Valid @RequestBody CreateRequestDto createRequestDto) {
+  public ResponseEntity<CreateExpenseTypeResponseDto> createType(
+      @Valid @RequestBody CreateExpenseTypeRequestDto createRequestDto) {
     return ResponseEntity.ok(expenseTypeService.createType(createRequestDto));
   }
 

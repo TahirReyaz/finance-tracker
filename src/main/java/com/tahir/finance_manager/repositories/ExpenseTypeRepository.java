@@ -6,8 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.tahir.finance_manager.entities.ExpenseType;
 
-public interface ExpenseTypeRepository extends CrudRepository<ExpenseType, String> {
-  Optional<ExpenseType> findExpenseTypeById(String id);
+public interface ExpenseTypeRepository extends CrudRepository<ExpenseType, Long> {
+  Optional<ExpenseType> findByName(String name);
 
-  Optional<ExpenseType> findExpenseTypeByName(String id);
+  Optional<ExpenseType> findById(Long id);
 }

@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.tahir.finance_manager.entities.User;
 
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends CrudRepository<User, Long> {
   Optional<User> findByUsername(String username);
 
   Optional<User> findByEmail(String email);

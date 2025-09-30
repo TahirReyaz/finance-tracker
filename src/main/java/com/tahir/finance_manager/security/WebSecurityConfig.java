@@ -31,10 +31,19 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(
             auth -> auth
                 .requestMatchers("/public/**", "/auth/**", "/").permitAll()
+
+                // Expense Type permissions
                 .requestMatchers(HttpMethod.GET, "/expense-type/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/expense-type").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/expense-type/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/expense-type/**").authenticated()
+
+                // Expense permissions
+                .requestMatchers(HttpMethod.GET, "/expense/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/expense").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/expense/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/expense/**").authenticated()
+
                 // .requestMatchers("/admin/**").hasRole("ADMIN"))
                 .anyRequest().authenticated())
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
