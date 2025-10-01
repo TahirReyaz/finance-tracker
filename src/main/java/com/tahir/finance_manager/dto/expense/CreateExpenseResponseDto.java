@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 
 import com.tahir.finance_manager.entities.ExpenseGroup;
 import com.tahir.finance_manager.entities.ExpenseType;
-import com.tahir.finance_manager.entities.User;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class CreateExpenseResponseDto {
   private Long id;
   private String item;
-  private User user;
+  private Long user;
   private ExpenseType expense_type;
   private ExpenseGroup expense_group;
   private Timestamp time;

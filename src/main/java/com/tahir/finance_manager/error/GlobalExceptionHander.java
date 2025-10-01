@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
 import io.jsonwebtoken.JwtException;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHander {
@@ -71,5 +72,11 @@ public class GlobalExceptionHander {
   public ResponseEntity<ApiError> handleMissingRequestBody(HttpMessageNotReadableException ex) {
     ApiError apiError = new ApiError("Request body is required", HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ApiError> handleEntityNotFound(EntityNotFoundException ex) {
+    ApiError apiError = new ApiError(ex.getMessage(), HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(apiError, apiError.getStatusCode());
   }
 }
