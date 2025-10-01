@@ -40,7 +40,7 @@ public class GlobalExceptionHander {
 
   @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ApiError> handleUsernameNotFoundException(AccessDeniedException ex) {
-    ApiError apiError = new ApiError("Access denied: Insufficient permissions", HttpStatus.FORBIDDEN);
+    ApiError apiError = new ApiError(ex.getMessage(), HttpStatus.FORBIDDEN);
     return new ResponseEntity<>(apiError, apiError.getStatusCode());
   }
 

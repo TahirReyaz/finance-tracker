@@ -1,5 +1,8 @@
 package com.tahir.finance_manager.services;
 
+import java.nio.file.AccessDeniedException;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tahir.finance_manager.dto.expense.CreateExpenseRequestDto;
@@ -24,9 +27,13 @@ public class ExpenseService {
         private final ExpenseGroupRepository expenseGroupRepository;
         private final UserRepository userRepository;
 
-        public CreateExpenseResponseDto getExpenseDetails(Long id) {
+        public CreateExpenseResponseDto getExpenseDetails(Long id) throws AccessDeniedException {
                 Expense expense = expenseRepository.findById(id)
                                 .orElseThrow(() -> new EntityNotFoundException("Expense not found"));
+                User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                if (loggedUser.getId() != expense.getUser().getId()) {
+                        throw new AccessDeniedException("You are not the owner of this expense");
+                }
 
                 return new CreateExpenseResponseDto(expense.getId(), expense.getItem(),
                                 expense.getUser().getId(),

@@ -1,5 +1,7 @@
 package com.tahir.finance_manager.controllers;
 
+import java.nio.file.AccessDeniedException;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +39,7 @@ public class ExpenseController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CreateExpenseResponseDto> getExpense(@PathVariable Long id) {
+  public ResponseEntity<CreateExpenseResponseDto> getExpense(@PathVariable Long id) throws AccessDeniedException {
     return ResponseEntity.ok(expenseService.getExpenseDetails(id));
   }
 
