@@ -22,9 +22,6 @@ public class CreateExpenseRequestDto {
   @PastOrPresent(message = "Time must not be in future")
   private Timestamp time;
 
-  @NotNull(message = "User is required")
-  private Long user;
-
   @JsonProperty("expense_type")
   @NotNull(message = "Expense Type is required")
   private Long expenseType;

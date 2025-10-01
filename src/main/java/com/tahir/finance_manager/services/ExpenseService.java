@@ -14,7 +14,6 @@ import com.tahir.finance_manager.entities.User;
 import com.tahir.finance_manager.repositories.ExpenseGroupRepository;
 import com.tahir.finance_manager.repositories.ExpenseRepository;
 import com.tahir.finance_manager.repositories.ExpenseTypeRepository;
-import com.tahir.finance_manager.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ public class ExpenseService {
         private final ExpenseRepository expenseRepository;
         private final ExpenseTypeRepository expenseTypeRepository;
         private final ExpenseGroupRepository expenseGroupRepository;
-        private final UserRepository userRepository;
 
         public CreateExpenseResponseDto getExpenseDetails(Long id) throws AccessDeniedException {
                 Expense expense = expenseRepository.findById(id)
@@ -51,8 +49,7 @@ public class ExpenseService {
                                                                 "Expense group not found"))
                                 : null;
 
-                User user = userRepository.findById(createRequestDto.getUser())
-                                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
                 Expense newExpense = Expense.builder()
                                 .item(createRequestDto.getItem())
@@ -60,7 +57,7 @@ public class ExpenseService {
                                 .expense_type(expenseType)
                                 .expense_group(expenseGroup)
                                 .time(createRequestDto.getTime())
-                                .user(user)
+                                .user(loggedUser)
                                 .build();
 
                 Expense savedExpense = expenseRepository.save(newExpense);
