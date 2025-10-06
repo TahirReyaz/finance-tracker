@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateExpenseResponseDto {
+public class ExpenseResponseDto {
   private Long id;
   private String item;
   private Long user;

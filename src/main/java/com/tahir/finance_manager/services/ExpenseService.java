@@ -1,12 +1,13 @@
 package com.tahir.finance_manager.services;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.tahir.finance_manager.dto.expense.CreateExpenseRequestDto;
-import com.tahir.finance_manager.dto.expense.CreateExpenseResponseDto;
+import com.tahir.finance_manager.dto.expense.ExpenseResponseDto;
 import com.tahir.finance_manager.entities.Expense;
 import com.tahir.finance_manager.entities.ExpenseGroup;
 import com.tahir.finance_manager.entities.ExpenseType;
@@ -25,7 +26,7 @@ public class ExpenseService {
         private final ExpenseTypeRepository expenseTypeRepository;
         private final ExpenseGroupRepository expenseGroupRepository;
 
-        public CreateExpenseResponseDto getExpenseDetails(Long id) throws AccessDeniedException {
+        public ExpenseResponseDto getExpenseDetails(Long id) throws AccessDeniedException {
                 Expense expense = expenseRepository.findById(id)
                                 .orElseThrow(() -> new EntityNotFoundException("Expense not found"));
                 User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -33,13 +34,13 @@ public class ExpenseService {
                         throw new AccessDeniedException("You are not the owner of this expense");
                 }
 
-                return new CreateExpenseResponseDto(expense.getId(), expense.getItem(),
+                return new ExpenseResponseDto(expense.getId(), expense.getItem(),
                                 expense.getUser().getId(),
                                 expense.getExpense_type(), expense.getExpense_group(), expense.getTime(),
                                 expense.getAmount());
         }
 
-        public CreateExpenseResponseDto createExpense(CreateExpenseRequestDto createRequestDto) {
+        public ExpenseResponseDto createExpense(CreateExpenseRequestDto createRequestDto) {
                 ExpenseType expenseType = expenseTypeRepository.findById(createRequestDto.getExpenseType())
                                 .orElseThrow(() -> new IllegalArgumentException("Expense type not found"));
 
@@ -62,9 +63,26 @@ public class ExpenseService {
 
                 Expense savedExpense = expenseRepository.save(newExpense);
 
-                return new CreateExpenseResponseDto(savedExpense.getId(), savedExpense.getItem(),
+                return new ExpenseResponseDto(savedExpense.getId(), savedExpense.getItem(),
                                 savedExpense.getUser().getId(),
                                 savedExpense.getExpense_type(), savedExpense.getExpense_group(), savedExpense.getTime(),
                                 savedExpense.getAmount());
+        }
+
+        public List<ExpenseResponseDto> getMyExpenses() {
+                User loggedUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+                List<Expense> myExpenses =  expenseRepository.findByUserId(loggedUser.getId())
+                        .orElseThrow(() -> new EntityNotFoundException("No expenses found for the user"));
+
+                List<ExpenseResponseDto> myExpensesDto = myExpenses.stream().map(expense -> new ExpenseResponseDto(
+                                expense.getId(),
+                                expense.getItem(),
+                                expense.getUser().getId(),
+                                expense.getExpense_type(),
+                                expense.getExpense_group(),
+                                expense.getTime(),
+                                expense.getAmount())).toList();
+
+                return myExpensesDto;
         }
 }

@@ -1,6 +1,7 @@
 package com.tahir.finance_manager.controllers;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tahir.finance_manager.dto.expense.CreateExpenseRequestDto;
-import com.tahir.finance_manager.dto.expense.CreateExpenseResponseDto;
+import com.tahir.finance_manager.dto.expense.ExpenseResponseDto;
 import com.tahir.finance_manager.entities.Expense;
 import com.tahir.finance_manager.repositories.ExpenseRepository;
 import com.tahir.finance_manager.services.ExpenseService;
@@ -33,14 +34,19 @@ public class ExpenseController {
   }
 
   @PostMapping
-  public ResponseEntity<CreateExpenseResponseDto> createExpense(
+  public ResponseEntity<ExpenseResponseDto> createExpense(
       @Valid @RequestBody CreateExpenseRequestDto createExpenseRequestDto) {
     return ResponseEntity.ok(expenseService.createExpense(createExpenseRequestDto));
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<CreateExpenseResponseDto> getExpense(@PathVariable Long id) throws AccessDeniedException {
+  public ResponseEntity<ExpenseResponseDto> getExpense(@PathVariable Long id) throws AccessDeniedException {
     return ResponseEntity.ok(expenseService.getExpenseDetails(id));
+  }
+
+  @GetMapping
+  public @ResponseBody List<ExpenseResponseDto> getMyExpenses() {
+    return expenseService.getMyExpenses();
   }
 
 }
