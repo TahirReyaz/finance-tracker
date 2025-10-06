@@ -29,12 +29,15 @@ public class ExpenseLimit {
 
   @Column(nullable = false)
   private Timestamp time;
+
   @ManyToOne
-  @JoinColumn(name = "user", nullable = false)
+  @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
   @ManyToOne
-  @JoinColumn(name = "expense_type", nullable = false)
+  @JoinColumn(name = "expense_type_id", nullable = false)
   private ExpenseType expense_type;
+  
   @Column(nullable = false)
   private Double amount;
 
