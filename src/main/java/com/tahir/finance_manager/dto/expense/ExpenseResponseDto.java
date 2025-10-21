@@ -17,7 +17,7 @@ public class ExpenseResponseDto {
   private Long id;
   private String item;
   private Long user;
-  private ExpenseType expense_type;
+  private ExpenseType expenseType;
   private ExpenseGroup expense_group;
   private Timestamp time;
   private BigDecimal amount;

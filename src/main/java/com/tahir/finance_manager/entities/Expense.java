@@ -37,7 +37,7 @@ public class Expense {
 
   @ManyToOne
   @JoinColumn(name = "expense_type_id", nullable = false)
-  private ExpenseType expense_type;
+  private ExpenseType expenseType;
 
   @ManyToOne
   @JoinColumn(name = "expense_group_id")

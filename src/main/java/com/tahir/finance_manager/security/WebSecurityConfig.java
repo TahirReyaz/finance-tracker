@@ -39,7 +39,13 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.DELETE, "/expense-type/**").authenticated()
 
                 // Expense permissions
-                .requestMatchers("/expense/**").authenticated()
+                .requestMatchers("/expense", "/expense/**").authenticated()
+
+                // Expense Group permissions
+                .requestMatchers("/expense-group", "/expense-group/**").authenticated()
+
+                // Expense Limit permissions
+                .requestMatchers("/expense-limit", "/expense-limit/**").authenticated()
 
                 // .requestMatchers("/admin/**").hasRole("ADMIN"))
                 .anyRequest().authenticated())

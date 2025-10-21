@@ -36,7 +36,7 @@ public class ExpenseService {
 
                 return new ExpenseResponseDto(expense.getId(), expense.getItem(),
                                 expense.getUser().getId(),
-                                expense.getExpense_type(), expense.getExpense_group(), expense.getTime(),
+                                expense.getExpenseType(), expense.getExpense_group(), expense.getTime(),
                                 expense.getAmount());
         }
 
@@ -55,7 +55,7 @@ public class ExpenseService {
                 Expense newExpense = Expense.builder()
                                 .item(createRequestDto.getItem())
                                 .amount(createRequestDto.getAmount())
-                                .expense_type(expenseType)
+                                .expenseType(expenseType)
                                 .expense_group(expenseGroup)
                                 .time(createRequestDto.getTime())
                                 .user(loggedUser)
@@ -65,7 +65,7 @@ public class ExpenseService {
 
                 return new ExpenseResponseDto(savedExpense.getId(), savedExpense.getItem(),
                                 savedExpense.getUser().getId(),
-                                savedExpense.getExpense_type(), savedExpense.getExpense_group(), savedExpense.getTime(),
+                                savedExpense.getExpenseType(), savedExpense.getExpense_group(), savedExpense.getTime(),
                                 savedExpense.getAmount());
         }
 
@@ -78,7 +78,7 @@ public class ExpenseService {
                                 expense.getId(),
                                 expense.getItem(),
                                 expense.getUser().getId(),
-                                expense.getExpense_type(),
+                                expense.getExpenseType(),
                                 expense.getExpense_group(),
                                 expense.getTime(),
                                 expense.getAmount())).toList();

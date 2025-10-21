@@ -1,5 +1,6 @@
 package com.tahir.finance_manager.entities;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
@@ -35,11 +36,11 @@ public class ExpenseLimit {
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "expense_type_id", nullable = false)
-  private ExpenseType expense_type;
+  @JoinColumn(name = "expense_type_id", nullable = false, unique = true)
+  private ExpenseType expenseType;
   
   @Column(nullable = false)
-  private Double amount;
+  private BigDecimal amount;
 
   @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT NOW()", updatable = false, insertable = false)
   private Timestamp created_at;
