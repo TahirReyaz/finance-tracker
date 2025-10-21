@@ -9,5 +9,6 @@ import com.tahir.finance_manager.entities.ExpenseGroup;
 
 public interface ExpenseGroupRepository extends CrudRepository<ExpenseGroup, Long> {
   Optional<ExpenseGroup> findByName(String name);
+  Optional<ExpenseGroup> findByUserIdAndName(Long userId, String name);
   Optional<List<ExpenseGroup>> findByUserId(Long userId);
 }

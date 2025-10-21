@@ -22,9 +22,9 @@ public class ExpenseGroupService {
 
     public ExpenseGroupResponseDto createExpenseGroup(CreateExpenseGroupRequestDto createExpenseGroupRequestDto) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ExpenseGroup expenseGroup = expenseGroupRepository.findByName(createExpenseGroupRequestDto.getName()).orElse(null);
+        ExpenseGroup expenseGroup = expenseGroupRepository.findByUserIdAndName(user.getId(), createExpenseGroupRequestDto.getName()).orElse(null);
 
-        if(expenseGroup != null && expenseGroup.getUser().getId() == user.getId()) {
+        if(expenseGroup != null) {
             throw new IllegalArgumentException("Group with same name already exists for this user!");
         }
 
