@@ -34,10 +34,7 @@ public class ExpenseService {
                         throw new AccessDeniedException("You are not the owner of this expense");
                 }
 
-                return new ExpenseResponseDto(expense.getId(), expense.getItem(),
-                                expense.getUser().getId(),
-                                expense.getExpenseType(), expense.getExpense_group(), expense.getTime(),
-                                expense.getAmount());
+                return new ExpenseResponseDto(expense);
         }
 
         public ExpenseResponseDto createExpense(CreateExpenseRequestDto createRequestDto) {
@@ -63,10 +60,7 @@ public class ExpenseService {
 
                 Expense savedExpense = expenseRepository.save(newExpense);
 
-                return new ExpenseResponseDto(savedExpense.getId(), savedExpense.getItem(),
-                                savedExpense.getUser().getId(),
-                                savedExpense.getExpenseType(), savedExpense.getExpense_group(), savedExpense.getTime(),
-                                savedExpense.getAmount());
+                return new ExpenseResponseDto(savedExpense);
         }
 
         public List<ExpenseResponseDto> getMyExpenses() {
@@ -75,13 +69,7 @@ public class ExpenseService {
                         .orElseThrow(() -> new EntityNotFoundException("No expenses found for the user"));
 
                 List<ExpenseResponseDto> myExpensesDto = myExpenses.stream().map(expense -> new ExpenseResponseDto(
-                                expense.getId(),
-                                expense.getItem(),
-                                expense.getUser().getId(),
-                                expense.getExpenseType(),
-                                expense.getExpense_group(),
-                                expense.getTime(),
-                                expense.getAmount())).toList();
+                                expense)).toList();
 
                 return myExpensesDto;
         }

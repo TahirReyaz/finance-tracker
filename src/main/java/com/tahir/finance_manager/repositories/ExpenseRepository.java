@@ -10,4 +10,8 @@ import com.tahir.finance_manager.entities.Expense;
 public interface ExpenseRepository extends CrudRepository<Expense, Long> {
   Optional<Expense> findByItem(String item);
   Optional<List<Expense>> findByUserId(Long userId);
+  Optional<List<Expense>> findByUserIdAndExpenseTypeIdIn(
+      Long userId,
+      List<Long> expenseTypeIds
+  );
 }

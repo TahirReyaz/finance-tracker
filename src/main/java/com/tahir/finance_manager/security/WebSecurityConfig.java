@@ -47,6 +47,9 @@ public class WebSecurityConfig {
                 // Expense Limit permissions
                 .requestMatchers("/expense-limit", "/expense-limit/**").authenticated()
 
+                // Stat permissions
+                .requestMatchers("/stats").authenticated()
+
                 // .requestMatchers("/admin/**").hasRole("ADMIN"))
                 .anyRequest().authenticated())
         .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

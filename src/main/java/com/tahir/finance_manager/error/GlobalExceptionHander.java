@@ -71,6 +71,11 @@ public class GlobalExceptionHander {
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ApiError> handleMissingRequestBody(HttpMessageNotReadableException ex) {
     ApiError apiError = new ApiError("Request body is required", HttpStatus.BAD_REQUEST);
+    if (ex.getMessage().contains("ArrayList") && ex.getMessage().contains("Long")) {
+            apiError.setError("Invalid format for 'expenseTypes'. It must be an array of numbers, e.g. [1, 2, 3]");
+        } else {
+          apiError.setError("Malformed JSON request");
+        }
     return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
   }
 
