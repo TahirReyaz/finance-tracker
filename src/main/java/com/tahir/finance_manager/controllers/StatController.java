@@ -1,7 +1,7 @@
 package com.tahir.finance_manager.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +19,7 @@ public class StatController {
     private final StatService statService;
 
     @GetMapping
-    public StatResponseDto getStats (@Valid @RequestBody StatRequestDto statRequestDto) {
+    public StatResponseDto getStats (@Valid @ModelAttribute StatRequestDto statRequestDto) {
         return statService.getStats(statRequestDto);
     }
 }
